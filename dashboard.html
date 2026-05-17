@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - University Library</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="brand">📚 University Library</div>
+    <div class="nav-links">
+        <a th:href="@{/admin/dashboard}">Dashboard</a>
+        <a th:href="@{/admin/books}">Books</a>
+        <a th:href="@{/admin/students}">Students</a>
+        <a th:href="@{/admin/loans}">Loans</a>
+        <a th:href="@{/logout}" style="color:#ff8a80;">Logout</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 class="page-title">Dashboard</h1>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="number" th:text="${totalBooks}">0</div>
+            <div class="label">Total Books</div>
+        </div>
+        <div class="stat-card">
+            <div class="number" th:text="${totalStudents}">0</div>
+            <div class="label">Registered Students</div>
+        </div>
+        <div class="stat-card">
+            <div class="number" th:text="${activeLoans}">0</div>
+            <div class="label">Active Loans</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="section-header">
+            <h2 style="font-size:1.1rem;color:#1a3c5e;">Recent Activity</h2>
+            <a th:href="@{/admin/loans}" class="btn btn-secondary btn-sm">View All</a>
+        </div>
+        <table th:if="${!recentRecords.isEmpty()}">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Book</th>
+                    <th>Borrow Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="r : ${recentRecords}">
+                    <td th:text="${r.user.name}"></td>
+                    <td th:text="${r.book.title}"></td>
+                    <td th:text="${r.borrowDate}"></td>
+                    <td>
+                        <span th:if="${r.status.name() == 'BORROWED'}" class="badge badge-warning">Borrowed</span>
+                        <span th:if="${r.status.name() == 'RETURNED'}" class="badge badge-success">Returned</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div th:if="${recentRecords.isEmpty()}" class="empty-state">
+            <div class="icon">📋</div>
+            <p>No activity yet</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

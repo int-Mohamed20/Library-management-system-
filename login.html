@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - University Library</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="auth-wrapper">
+    <div class="auth-box">
+        <div class="logo">📚</div>
+        <h2>University Library</h2>
+        <p class="subtitle">Sign in to your account</p>
+
+        <div th:if="${param.registered}" class="alert alert-success">
+            Account created! You can log in now.
+        </div>
+
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+        <form method="post" th:action="@{/login}">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control"
+                       th:value="${savedEmail}" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control"
+                       placeholder="••••••••" required>
+            </div>
+            <div class="check-group">
+                <input type="checkbox" name="rememberMe" id="rememberMe"
+                       th:checked="${savedEmail != null and !#strings.isEmpty(savedEmail)}">
+                <label for="rememberMe">Remember my email</label>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;padding:10px;">Login</button>
+        </form>
+
+        <p style="text-align:center;margin-top:18px;font-size:0.9rem;color:#666;">
+            Don't have an account? <a th:href="@{/register}" style="color:#1a3c5e;font-weight:600;">Register</a>
+        </p>
+    </div>
+</div>
+</body>
+</html>

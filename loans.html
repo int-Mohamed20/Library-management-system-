@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Loan Records - University Library</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="brand">📚 University Library</div>
+    <div class="nav-links">
+        <a th:href="@{/admin/dashboard}">Dashboard</a>
+        <a th:href="@{/admin/books}">Books</a>
+        <a th:href="@{/admin/students}">Students</a>
+        <a th:href="@{/admin/loans}">Loans</a>
+        <a th:href="@{/logout}" style="color:#ff8a80;">Logout</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 class="page-title">All Loan Records</h1>
+
+    <div class="card">
+        <table th:if="${!records.isEmpty()}">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Student</th>
+                    <th>Book</th>
+                    <th>Borrowed On</th>
+                    <th>Returned On</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="r, stat : ${records}">
+                    <td th:text="${stat.count}"></td>
+                    <td th:text="${r.user.name}"></td>
+                    <td th:text="${r.book.title}"></td>
+                    <td th:text="${r.borrowDate}"></td>
+                    <td th:text="${r.returnDate != null ? r.returnDate : '-'}"></td>
+                    <td>
+                        <span th:if="${r.status.name() == 'BORROWED'}" class="badge badge-warning">Borrowed</span>
+                        <span th:if="${r.status.name() == 'RETURNED'}" class="badge badge-success">Returned</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div th:if="${records.isEmpty()}" class="empty-state">
+            <div class="icon">📋</div>
+            <p>No loan records yet</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

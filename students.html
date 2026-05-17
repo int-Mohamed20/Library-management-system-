@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Students - University Library</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="brand">📚 University Library</div>
+    <div class="nav-links">
+        <a th:href="@{/admin/dashboard}">Dashboard</a>
+        <a th:href="@{/admin/books}">Books</a>
+        <a th:href="@{/admin/students}">Students</a>
+        <a th:href="@{/admin/loans}">Loans</a>
+        <a th:href="@{/logout}" style="color:#ff8a80;">Logout</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 class="page-title">Registered Students</h1>
+
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+    <div class="card">
+        <table th:if="${!students.isEmpty()}">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="s, stat : ${students}">
+                    <td th:text="${stat.count}"></td>
+                    <td th:text="${s.name}"></td>
+                    <td th:text="${s.email}"></td>
+                    <td>
+                        <form method="post"
+                              th:action="@{/admin/students/delete/{id}(id=${s.id})}"
+                              style="display:inline;"
+                              onsubmit="return confirm('Remove this student?')">
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div th:if="${students.isEmpty()}" class="empty-state">
+            <div class="icon">👤</div>
+            <p>No students registered yet</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
