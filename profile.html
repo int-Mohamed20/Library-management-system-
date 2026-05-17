@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile - University Library</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="brand">📚 University Library</div>
+    <div class="nav-links">
+        <a th:href="@{/student/home}">Home</a>
+        <a th:href="@{/student/books}">Browse Books</a>
+        <a th:href="@{/student/history}">My Borrows</a>
+        <a th:href="@{/student/profile}">Profile</a>
+        <a th:href="@{/logout}" style="color:#ff8a80;">Logout</a>
+    </div>
+</nav>
+
+<div class="container" style="max-width:600px;">
+    <h1 class="page-title">My Profile</h1>
+
+    <div class="card">
+        <div class="profile-header">
+            <div class="avatar" th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}">S</div>
+            <div>
+                <div style="font-size:1.2rem;font-weight:600;" th:text="${user.name}"></div>
+                <div style="color:#666;font-size:0.9rem;" th:text="${user.email}"></div>
+                <span class="badge badge-success" style="margin-top:6px;">Student</span>
+            </div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid #eee;margin:18px 0;">
+
+        <div style="display:flex;gap:30px;">
+            <div style="text-align:center;">
+                <div style="font-size:1.8rem;font-weight:700;color:#1a3c5e;" th:text="${totalBorrowed}">0</div>
+                <div style="font-size:0.85rem;color:#666;">Total Borrowed</div>
+            </div>
+            <div style="text-align:center;">
+                <div style="font-size:1.8rem;font-weight:700;color:#2e7d32;" th:text="${activeBorrows}">0</div>
+                <div style="font-size:0.85rem;color:#666;">Currently Borrowed</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="background:#f0f4f8;border-left:4px solid #1a3c5e;">
+        <p style="font-size:0.9rem;color:#555;">
+            <strong>Library Policy:</strong> You can borrow up to 5 books at a time.
+            Please return books on time to allow other students to borrow them.
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

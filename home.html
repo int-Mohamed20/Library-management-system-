@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - University Library</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="brand">📚 University Library</div>
+    <div class="nav-links">
+        <a th:href="@{/student/home}">Home</a>
+        <a th:href="@{/student/books}">Browse Books</a>
+        <a th:href="@{/student/history}">My Borrows</a>
+        <a th:href="@{/student/profile}">Profile</a>
+        <a th:href="@{/logout}" style="color:#ff8a80;">Logout</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 class="page-title">Welcome back, <span th:text="${user.name}">Student</span>!</h1>
+
+    <div class="card" style="background: linear-gradient(135deg, #1a3c5e, #2d6a9f); color: white; margin-bottom: 28px;">
+        <p style="font-size:1.05rem;opacity:0.9;">Explore our collection and borrow books for your studies.</p>
+        <a th:href="@{/student/books}" class="btn" style="background:white;color:#1a3c5e;margin-top:14px;font-weight:600;">Browse All Books →</a>
+    </div>
+
+    <div class="section-header">
+        <h2 style="font-size:1.1rem;color:#1a3c5e;">Available Books</h2>
+        <a th:href="@{/student/books}" class="btn btn-secondary btn-sm">See All</a>
+    </div>
+
+    <div class="books-grid" th:if="${!books.isEmpty()}">
+        <div class="book-card" th:each="book : ${books}">
+            <div class="book-title" th:text="${book.title}"></div>
+            <div class="book-author" th:text="'by ' + ${book.author}"></div>
+            <div class="book-category" th:text="${book.category}"></div>
+            <div class="copies" th:text="${book.availableCopies} + ' copies available'"></div>
+            <form method="post" th:action="@{/student/borrow/{id}(id=${book.id})}" style="margin-top:6px;">
+                <button type="submit" class="btn btn-success btn-sm">Borrow</button>
+            </form>
+        </div>
+    </div>
+
+    <div th:if="${books.isEmpty()}" class="empty-state">
+        <div class="icon">📖</div>
+        <p>No books available right now</p>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Borrows - University Library</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="brand">📚 University Library</div>
+    <div class="nav-links">
+        <a th:href="@{/student/home}">Home</a>
+        <a th:href="@{/student/books}">Browse Books</a>
+        <a th:href="@{/student/history}">My Borrows</a>
+        <a th:href="@{/student/profile}">Profile</a>
+        <a th:href="@{/logout}" style="color:#ff8a80;">Logout</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 class="page-title">My Borrow History</h1>
+
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <div class="card">
+        <table th:if="${!records.isEmpty()}">
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Author</th>
+                    <th>Borrowed On</th>
+                    <th>Returned On</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="r : ${records}">
+                    <td th:text="${r.book.title}"></td>
+                    <td th:text="${r.book.author}"></td>
+                    <td th:text="${r.borrowDate}"></td>
+                    <td th:text="${r.returnDate != null ? r.returnDate : '-'}"></td>
+                    <td>
+                        <span th:if="${r.status.name() == 'BORROWED'}" class="badge badge-warning">Borrowed</span>
+                        <span th:if="${r.status.name() == 'RETURNED'}" class="badge badge-success">Returned</span>
+                    </td>
+                    <td>
+                        <form th:if="${r.status.name() == 'BORROWED'}"
+                              method="post"
+                              th:action="@{/student/return/{id}(id=${r.id})}">
+                            <button type="submit" class="btn btn-primary btn-sm">Return</button>
+                        </form>
+                        <span th:if="${r.status.name() == 'RETURNED'}" style="color:#999;font-size:0.85rem;">Done</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div th:if="${records.isEmpty()}" class="empty-state">
+            <div class="icon">📚</div>
+            <p>You haven't borrowed any books yet.</p>
+            <a th:href="@{/student/books}" class="btn btn-primary" style="margin-top:12px;">Browse Books</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
